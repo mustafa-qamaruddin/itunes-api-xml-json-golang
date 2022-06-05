@@ -64,7 +64,7 @@ type SearchResponse struct {
 	} `json:"results"`
 }
 
-func (itunesService *ItunesService) search(term string) (SearchResponse, error) {
+func (itunesService *ItunesService) Search(term string) (SearchResponse, error) {
 	client := http.Client{Timeout: 10 * time.Second}
 
 	url := url.URL{Scheme: "https", Host: "itunes.apple.com", Path: "search"}
