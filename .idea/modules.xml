@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/itunes/itunes.iml" filepath="$PROJECT_DIR$/itunes/itunes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/itunes-api-xml-json-golang.iml" filepath="$PROJECT_DIR$/.idea/itunes-api-xml-json-golang.iml" />
+    </modules>
+  </component>
+</project>
