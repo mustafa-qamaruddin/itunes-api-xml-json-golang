@@ -1,0 +1,48 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Todo {
+    id: ID!
+    text: String!
+    done: Boolean!
+    user: User!
+}
+
+type User {
+    id: ID!
+    name: String!
+}
+
+input NewTodo {
+    text: String!
+    userId: String!
+}
+
+type ChannelItem {
+    title: String!
+    duration: String
+    description: String
+    url: String!
+}
+
+type SearchItem {
+    id: Int!
+    artist: String!
+    track: String!
+    url: String!
+    country: String
+    collection: String
+    feedUrl: String
+    length: Int
+    feeds: [ChannelItem!]
+}
+
+type Query {
+    todos: [Todo!]!
+    search(term: String!, media: String = "podcast", entity: String = "podcast", attribute: String = "keywordsTerm"): [SearchItem!]!
+}
+
+type Mutation {
+    createTodo(input: NewTodo!): Todo!
+}

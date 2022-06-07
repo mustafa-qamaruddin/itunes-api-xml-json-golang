@@ -1,40 +1,32 @@
 package main
 
 import (
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
+	"itunesJsonXmlApis/graph"
+	"itunesJsonXmlApis/graph/generated"
 	"log"
+	"net/http"
+	"os"
 
 	"itunesJsonXmlApis/itunes"
 )
 
+const defaultPort = "8080"
+
 func main() {
-	itunesService := itunes.NewItunesService()
-
-	res, err := itunesService.Search("mercedes sosa", "music", "song", "artistTerm", 200)
-	if err != nil {
-		log.Fatal(err.Error())
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultPort
 	}
 
-	for _, item := range res.Results {
-		displayItem(item)
-	}
+	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 
-	res, err = itunesService.Search("mercedes sosa", "podcast", "podcast", "keywordsTerm", 200)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	http.Handle("/query", srv)
 
-	for _, item := range res.Results {
-		displayItem(item)
-		if item.FeedURL != "" {
-			feed, err := itunesService.FetchFeed(item.FeedURL)
-			if err != nil {
-				log.Fatal(err.Error())
-			}
-			for _, feedItem := range feed.Channel.Item {
-				displayChannelItem(feedItem)
-			}
-		}
-	}
+	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
 
 func displayChannelItem(feedItem itunes.ChannelItem) {
